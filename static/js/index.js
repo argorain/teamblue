@@ -1,6 +1,7 @@
 'use strict'
 
 var ws = new WebSocket(`ws://${window.location.host}/`);
+const url = `http://${window.location.host}/api`;
 
 ws.onopen = (e) => {
     console.log("WS: OPEN");
@@ -16,49 +17,37 @@ ws.onclose = (e) => {
     console.log("WS: CLOSE");
 };
 
-const checklists = [
-    {
-        id: 1,
-        name: "Normal Takeoff",
-        items: [
-            {
-                id: 1,
-                text: "Wing Flaps",
-                value: "20 degrees"
-            },
-            {
-                id: 2,
-                text: "Throttle",
-                value: "100%"
-            }
-        ]
-    },
-    {
-        id: 2,
-        name: "Short Field Takeoff",
-        items: [
-            {
-                id: 3,
-                text: "Wing Flaps",
-                value: "30 degrees"
-            }
-        ]
-    }
-]
+var checklists = []
+
+var $leftMenu;
+var $checklistName;
+var $checklistItems;
 
 $( document ).ready(() => {
+
     var $left = $("#left");
     var $right = $("#right");
 
-    var $leftMenu = $('<ul class="list-group"></ul>');
+    $leftMenu = $('<ul class="list-group"></ul>');
     $left.append($leftMenu);
 
-    var $checklistName = $('<h4></h4>');
+    $checklistName = $('<h4></h4>');
     $right.append($checklistName);
 
-    var $checklistItems = $('<ul class="list-group"></ul>');
+    $checklistItems = $('<ul class="list-group"></ul>');
     $right.append($checklistItems);
 
+    fetchChecklists();
+})
+
+function fetchChecklists(callback) {
+    $.get(url + '/all', function(data) {
+        checklists = JSON.parse(data);
+        renderChecklists();
+    });
+}
+
+function renderChecklists() {
     checklists.forEach((list) => {
         var listItem = $('<li class="list-group-item" data-id="' + list.id + '">' + list.name + '</li>');
         $leftMenu.append(listItem);
@@ -75,10 +64,7 @@ $( document ).ready(() => {
             })
         });
     })
-
-    var content = $("#content");
-
-})
+}
 
 function getChecklist(id) {
     return checklists.filter((list) => list.id == id)[0];

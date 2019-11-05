@@ -1,28 +1,33 @@
 [
     {
+        "id": 1,
+        "name": "Normal Takeoff",
+        "items": [
+            {
+                "id": 1,
+                "text": "Wing Flaps",
+                "value": "20 degrees"
+            },
+            {
+                "id": 2,
+                "text": "Throttle",
+                "value": "FULL"
+            }
+        ]
+    },
+    {
         "id": 2,
-        "name": "Short Takeoff",
+        "name": "Short Field Takeoff",
         "items": [
             {
                 "id": 3,
                 "text": "Wing Flaps",
                 "value": "30 degrees"
-            }
-        ]
-    },
-    {
-        "id": 3,
-        "name": "Field Takeoff",
-        "items": [
-            {
-                "id": 3,
-                "text": "Wing 2 Flaps",
-                "value": "30 degrees"
             },
             {
-                "id": 4,
-                "text": "Wing 3 Flaps",
-                "value": "30 degrees"
+                "id": 3,
+                "text": "Brakes",
+                "value": "APPLY"
             }
         ]
     }
