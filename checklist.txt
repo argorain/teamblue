@@ -1,0 +1,3 @@
+Reduce climb rate to 1000 fpm
+Reduce throttle to 75%
+Come back at departure airport
