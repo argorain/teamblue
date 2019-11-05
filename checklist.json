@@ -1,0 +1,29 @@
+[
+    {
+        "id": 2,
+        "name": "Short Takeoff",
+        "items": [
+            {
+                "id": 3,
+                "text": "Wing Flaps",
+                "value": "30 degrees"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Field Takeoff",
+        "items": [
+            {
+                "id": 3,
+                "text": "Wing 2 Flaps",
+                "value": "30 degrees"
+            },
+            {
+                "id": 4,
+                "text": "Wing 3 Flaps",
+                "value": "30 degrees"
+            }
+        ]
+    }
+]

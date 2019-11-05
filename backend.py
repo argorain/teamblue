@@ -3,6 +3,8 @@ from flask_sockets import Sockets
 import time
 from flask import request
 
+import json
+
 app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'secret!'
 sockets = Sockets(app)
@@ -26,7 +28,16 @@ def hello():
 @app.route('/api', methods=['POST', 'GET']) 
 def api():
     data = request.args
-    return str(data)
+
+    data = ""
+    with open("checklist.json") as f:
+        data = f.read()
+        
+    #print(data)
+
+    y = json.loads(data)
+
+    return str(y[0]["name"])
 
 if __name__ == '__main__':
     from gevent import pywsgi
