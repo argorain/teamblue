@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from flask_sockets import Sockets
 import time
+from flask import request
 
 app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'secret!'
@@ -26,7 +27,6 @@ def hello():
 def api():
     data = request.args
     return str(data)
-
 
 if __name__ == '__main__':
     from gevent import pywsgi
