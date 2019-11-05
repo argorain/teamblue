@@ -17,7 +17,7 @@ class StateMachine:
 
     def getList(self):
         for i in range(len(self.checklist)):
-            listName = self.checklist[i]['name']
+            listName = self.checklist[i]['name'].lower()
             if(listName == self.listName):
                 items = self.checklist[i]['items']
                 print(listName)
@@ -27,6 +27,10 @@ class StateMachine:
     
     def setListName(self, name):
         self.listName = name
+        if(self.getList() == None):
+            return None
+        else:
+            return name
 
     def incrementLine(self):
         self.lineNo += 1

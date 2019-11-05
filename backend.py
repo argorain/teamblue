@@ -45,9 +45,33 @@ def hello():
 
 @app.route('/api', methods=['POST', 'GET']) 
 def api():
-    data = request.args    
+    data = request.args.to_dict()   
     print(data)
-    return str(data)
+
+    try:
+        listName = data['list']
+    except(Exception):
+        listName = None
+
+    try:
+        getLine = data['getline']
+    except(Exception):
+        getLine = None
+
+    response = ""
+
+    if(listName != None):
+        if(s.setListName(listName.lower()) != None):
+            response = "OK"
+        else:
+            response = "FAIL"
+
+    if(getLine != None):
+        response = s.getLine()
+        s.incrementLine()
+
+
+    return str(response)
 
 @app.route('/api/all', methods=['GET'])
 def api_all():
