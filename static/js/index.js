@@ -50,23 +50,27 @@ $( document ).ready(() => {
     var $left = $("#left");
     var $right = $("#right");
 
-    $left.append('<ul class="list-group"></ul>');
-    var $leftMenu = $("#left ul")
+    var $leftMenu = $('<ul class="list-group"></ul>');
+    $left.append($leftMenu);
 
-    $right.append('<ul class="list-group"></ul>');
-    var $rightList = $("#right ul")
+    var $checklistName = $('<h4></h4>');
+    $right.append($checklistName);
+
+    var $checklistItems = $('<ul class="list-group"></ul>');
+    $right.append($checklistItems);
 
     checklists.forEach((list) => {
         var listItem = $('<li class="list-group-item" data-id="' + list.id + '">' + list.name + '</li>');
         $leftMenu.append(listItem);
         listItem.on('click', (e) => {
-            $rightList.empty();
+            $checklistItems.empty();
             var clickedId = $(e.currentTarget).data().id;
             console.log(clickedId);
 
-            var items = getItemsOfChecklist(clickedId)
-            items.forEach(item => {
-                $rightList.append('<li class="list-group-item" data-id="' + item.id + '">' + item.text+ '.......' + item.value + '</li>');
+            var checklist = getChecklist(clickedId);
+            $checklistName.html(checklist.name)
+            checklist.items.forEach(item => {
+                $checklistItems.append('<li class="list-group-item" data-id="' + item.id + '">' + item.text+ '.......' + item.value + '</li>');
 
             })
         });
@@ -76,6 +80,6 @@ $( document ).ready(() => {
 
 })
 
-function getItemsOfChecklist(id) {
-    return checklists.filter((list) => list.id == id)[0].items;
+function getChecklist(id) {
+    return checklists.filter((list) => list.id == id)[0];
 }
