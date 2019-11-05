@@ -9,6 +9,12 @@ app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'secret!'
 sockets = Sockets(app)
 
+checklists_json = ""
+with open("checklist.json") as f:
+    checklists_json = f.read()
+
+checklists = json.loads(checklists_json)
+
 @sockets.route('/')
 def echo_socket(ws):
     print("echo")
@@ -29,15 +35,17 @@ def hello():
 def api():
     data = request.args
 
-    data = ""
-    with open("checklist.json") as f:
-        data = f.read()
+    
         
     #print(data)
 
-    y = json.loads(data)
+    
 
-    return str(y[0]["name"])
+    return str(checklists[0]["name"])
+
+@app.route('/api/all', methods=['GET'])
+def api_all():
+    return str(checklists_json)
 
 if __name__ == '__main__':
     from gevent import pywsgi
