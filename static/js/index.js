@@ -52,18 +52,21 @@ function renderChecklists() {
         var listItem = $('<li class="list-group-item" data-id="' + list.id + '">' + list.name + '</li>');
         $leftMenu.append(listItem);
         listItem.on('click', (e) => {
-            $checklistItems.empty();
             var clickedId = $(e.currentTarget).data().id;
-            console.log(clickedId);
-
-            var checklist = getChecklist(clickedId);
-            $checklistName.html(checklist.name)
-            checklist.items.forEach(item => {
-                $checklistItems.append('<li class="list-group-item" data-id="' + item.id + '">' + item.text+ '.......' + item.value + '</li>');
-
-            })
+            selectChecklist(clickedId)
         });
     })
+}
+
+function selectChecklist(id) {
+    $checklistItems.empty();
+    var checklist = getChecklist(id);
+    $checklistName.html(checklist.name)
+    checklist.items.forEach(item => {
+        $checklistItems.append('<li class="list-group-item" data-id="' + item.id + '">' + item.text+ '.......' + item.value + '</li>');
+    })
+    $leftMenu.find('li').removeClass('active');
+    $leftMenu.find('li[data-id='+id+']').addClass('active');
 }
 
 function getChecklist(id) {
