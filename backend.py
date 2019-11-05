@@ -12,8 +12,9 @@ def echo_socket(ws):
     while not ws.closed:
         print("not closed")
         message = ws.receive()
-        #ws.send(message)
+        ws.send(message)
         print(message)
+        ws.close()
 
 
 @app.route('/')
