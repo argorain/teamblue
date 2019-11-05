@@ -3,6 +3,8 @@ from flask_sockets import Sockets
 import time
 from flask import request
 
+from state_machine import StateMachine
+
 import json
 
 app = Flask(__name__)
@@ -14,6 +16,16 @@ with open("checklist.json") as f:
     checklists_json = f.read()
 
 checklists = json.loads(checklists_json)
+
+print(checklists)
+
+s = StateMachine(checklists)
+#s.setListName("Field Takeoff")
+#s.getLine()
+#s.incrementLine()
+#s.getLine()
+#s.incrementLine()
+#s.getLine()
 
 @sockets.route('/')
 def echo_socket(ws):
@@ -33,15 +45,9 @@ def hello():
 
 @app.route('/api', methods=['POST', 'GET']) 
 def api():
-    data = request.args
-
-    
-        
-    #print(data)
-
-    
-
-    return str(checklists[0]["name"])
+    data = request.args    
+    print(data)
+    return str(data)
 
 @app.route('/api/all', methods=['GET'])
 def api_all():
