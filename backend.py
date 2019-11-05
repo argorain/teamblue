@@ -62,6 +62,7 @@ def api():
 
     if(listName != None):
         if(s.setListName(listName.lower()) != None):
+            s.resetListLine()
             response = "OK"
         else:
             response = "FAIL"

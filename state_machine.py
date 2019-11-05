@@ -34,3 +34,6 @@ class StateMachine:
 
     def incrementLine(self):
         self.lineNo += 1
+
+    def resetListLine(self):
+        self.lineNo = 0
