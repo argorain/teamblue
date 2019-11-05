@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "Normal Takeoff",
+        "name": "Take-off",
         "items": [
             {
                 "id": 1,
@@ -17,7 +17,7 @@
     },
     {
         "id": 2,
-        "name": "Short Field Takeoff",
+        "name": "Engine Failure",
         "items": [
             {
                 "id": 3,

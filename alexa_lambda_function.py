@@ -18,7 +18,7 @@ from ask_sdk_model import Response
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-
+checklist_slot = "checklist"
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
@@ -64,18 +64,34 @@ class ChecklistIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speak_output = "Hello World!"
+        intent_name = ask_utils.get_intent_name(handler_input)
+        slots = handler_input.request_envelope.request.intent.slots
         
-        url = "http://1e0e7c34.ngrok.io/api"
+        if checklist_slot not in slots:
+            speech = "I am not sure to understand. Please tell me which checlist you want"
+            return handler_input.response_builder.speak(speech).ask(speech).response
+        
+        checklistName = slots[checklist_slot].value
+        #checklistName = ask_utils.get_slot_value("checklist")
+        #handler_input.response_builder.speak(checklistName).ask(checklistName)
+        url = "http://c0c170ba.ngrok.io/api?list="+checklistName
         response = requests.get(url)
-        if response.status_code == 200:
-            the_fact = response.text
+        if response.status_code == 200 and response.text == "OK":
+            attr = handler_input.attributes_manager.session_attributes
+            attr["checklist"] = checklistName
+            attr["line"] = 1
+            url = "http://c0c170ba.ngrok.io/api?getline=1"
+            response = requests.get(url)
+            if response.status_code == 200:
+                speech = response.text
+            else:
+                speech = "No operations are available for the "+ checklistName
         else:
-            the_fact = "I had trouble sending a command"
-        speech = the_fact
-        handler_input.response_builder.speak(speech).ask(speech)
-        return handler_input.response_builder.response
-
+            instructions = "I am so sorry. I am not able to get the checklist "+ checklistName
+            askQuestion = "Do you have another checklist?"
+            instructions += askQuestion
+            speech = instructions
+        return handler_input.response_builder.speak(speech).response
         #return (
             #handler_input.response_builder
                 #.speak(speak_output)
@@ -147,21 +163,13 @@ class IntentReflectorHandler(AbstractRequestHandler):
         # type: (HandlerInput) -> Response
         intent_name = ask_utils.get_intent_name(handler_input)
         speak_output = "You just triggered " + intent_name + "."
-        url = "http://c0c170ba.ngrok.io/api"
-        response = requests.get(url)
-        if response.status_code == 200:
-            the_fact = response.text
-        else:
-            the_fact = "I had trouble sending a command"
-        speech = the_fact
-        handler_input.response_builder.speak(speech).ask(speech)
-        return handler_input.response_builder.response
-        #return (
-        #   handler_input.response_builder
-        #        .speak(speak_output)
-                # .ask("add a reprompt if you want to keep the session open for the user to respond")
-        #        .response
-        #)
+        
+        return (
+           handler_input.response_builder
+                .speak(speak_output)
+                .ask("add a reprompt if you want to keep the session open for the user to respond")
+               .response
+        )
 
 
 class CatchAllExceptionHandler(AbstractExceptionHandler):
@@ -198,7 +206,9 @@ sb.add_request_handler(HelloWorldIntentHandler())
 sb.add_request_handler(HelpIntentHandler())
 sb.add_request_handler(CancelOrStopIntentHandler())
 sb.add_request_handler(SessionEndedRequestHandler())
+sb.add_request_handler(ChecklistIntentHandler())
 sb.add_request_handler(IntentReflectorHandler()) # make sure IntentReflectorHandler is last so it doesn't override your custom intent handlers
+
 
 sb.add_exception_handler(CatchAllExceptionHandler())
 
