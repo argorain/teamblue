@@ -5,12 +5,12 @@ const url = `http://${window.location.host}/api`;
 
 ws.onopen = (e) => {
     console.log("WS: OPEN");
-    ws.send("test");
+    ws.send("{\"exec\":\"getline\"}");
 };
 
 ws.onmessage = (e) => {
-    //let data = JSON.parse(e.data);
-    console.log("WS: DATA", e);
+    let data = JSON.parse(e.data);
+    console.log("WS: DATA", data);
 };
 
 ws.onclose = (e) => {

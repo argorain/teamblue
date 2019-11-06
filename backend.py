@@ -31,12 +31,13 @@ s = StateMachine(checklists)
 def echo_socket(ws):
     print("echo")
     while not ws.closed:
-        print("not closed")
         message = ws.receive()
+        print("WS received: " + message)
+        req = json.loads(message)
+        print(req)
+        
         ws.send(message)
-        print(message)
-        ws.close()
-
+       
 
 @app.route('/')
 def hello():
