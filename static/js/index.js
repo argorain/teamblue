@@ -5,12 +5,16 @@ const url = `http://${window.location.host}/api`;
 
 ws.onopen = (e) => {
     console.log("WS: OPEN");
-    //ws.send("{\"exec\":\"getline\"}");
 };
 
 ws.onmessage = (e) => {
     let data = JSON.parse(e.data);
     console.log("WS: DATA", data);
+    if (data.listid) {
+        selectChecklist(data.listid);
+    } else if (data.lineid) {
+        selectLine(data.lineid);
+    }
 };
 
 ws.onclose = (e) => {
@@ -48,6 +52,13 @@ $(document).on('keypress', function(e) {
         case "KeyQ":
             sendData({ do: "next" });
             break;
+        case "KeyW":
+            console.log("starting engine");
+            $.get(url + '?list=starting%20engine', (data) => {});
+            break;
+        case "KeyE":
+            $.get(url + '?getline', (data) => {});
+            break;
     }
 });
 
@@ -70,7 +81,7 @@ function renderChecklist(name, items) {
     var $div = $('<div class="checklist"></div>');
     $left.append($div);
 
-    $div.append('<h5>' + name +'</h5>')
+    $div.append('<h5>' + name + '</h5>')
 
     var $leftMenu = $('<ul class="list-group"></ul>');
     $div.append($leftMenu);
@@ -89,8 +100,10 @@ function selectChecklist(id) {
     $checklistItems.empty();
     var checklist = getChecklist(id);
     $checklistName.html(checklist.name)
-    checklist.items.forEach(item => {
-        var listItem = $('<li class="list-group-item" data-id="' + item.id + '"><input class="form-check-input position-static item-check" type="checkbox" value="' + item.text + '" aria-label="' + item.text + '"><span class="item-text">' + item.text + '</span><span class="item-value">' + item.value + '</span></li>');
+    checklist.items.forEach((item, index) => {
+        var auto = item.type === "auto" ? " (A)" : "";
+        var active = index === 0 ? " active" : "";
+        var listItem = $('<li class="list-group-item' + active + '" data-id="' + item.id + '"><input class="form-check-input position-static item-check" type="checkbox" value="' + item.text + '" aria-label="' + item.text + '"><span class="item-text">' + item.text + auto + '</span><span class="item-value">' + item.value + '</span></li>');
         $checklistItems.append(listItem);
         listItem.find('.form-check-input').change(function() {
             if ($(this).prop('checked'))
@@ -109,4 +122,19 @@ function selectChecklist(id) {
 
 function getChecklist(id) {
     return checklists.filter((list) => list.id == id)[0];
+}
+
+function selectLine(number) {
+    var $activeEl = $checklistItems.find(".list-group-item.active");
+    if (number > 0) {
+        var $nextEl = $activeEl.next();
+        $activeEl.removeClass('active');
+        $activeEl.removeClass('fail');
+        $activeEl.addClass('done');
+        if ($nextEl) {
+            $nextEl.addClass('active');
+        }
+    } else {
+        $activeEl.addClass('fail');
+    }
 }
