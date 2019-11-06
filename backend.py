@@ -12,6 +12,7 @@ app = Flask(__name__)
 sockets = Sockets(app)
 
 ws_socket = None
+mock_counter = 0
 
 checklists_json = ""
 with open("checklist.json") as f:
@@ -33,15 +34,16 @@ s = StateMachine(checklists)
 @sockets.route('/')
 def echo_socket(ws):
     global ws_socket
+    global mock_counter
 
     ws_socket = ws
     print("Socket stored")
     while not ws_socket.closed: 
-        ws.receive()
-        #if(ws_message != None):
-        #    ws_message = "{\"exec\":\"getline\"}"
-        #    print(ws_message)
-        #    ws.send(ws_message)
+        action_json = ws.receive()
+        action = json.loads(action_json)
+        if(action['do'] == 'next'):
+            mock_counter += 1
+            print(mock_counter)
        
 
 @app.route('/')
@@ -87,7 +89,7 @@ def api():
         response = response[0] + " " + response[1]
     
     global ws_socket
-    if not ws_socket.closed:  
+    if ws_socket != None and not ws_socket.closed:  
         json_ws = "{\"data\":\""+str(id)+"\"}"
         print("send to ws: " + json_ws)
         ws_socket.send(json_ws)
