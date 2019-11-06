@@ -23,7 +23,7 @@ var $leftMenu;
 var $checklistName;
 var $checklistItems;
 
-$( document ).ready(() => {
+$(document).ready(() => {
 
     var $left = $("#left");
     var $right = $("#right");
@@ -63,10 +63,21 @@ function selectChecklist(id) {
     var checklist = getChecklist(id);
     $checklistName.html(checklist.name)
     checklist.items.forEach(item => {
-        $checklistItems.append('<li class="list-group-item" data-id="' + item.id + '">' + item.text+ '.......' + item.value + '</li>');
+        var listItem = $('<li class="list-group-item" data-id="' + item.id + '"><input class="form-check-input position-static item-check" type="checkbox" value="' + item.text + '" aria-label="' + item.text + '"><span class="item-text">' + item.text + '</span><span class="item-value">' + item.value + '</span></li>');
+        $checklistItems.append(listItem);
+        listItem.find('.form-check-input').change(function() {
+            if ($(this).prop('checked'))
+                $(this.parentElement).addClass('done');
+            else
+                $(this.parentElement).removeClass('done');
+        });
+        listItem.on('click', (e) => {
+            $checklistItems.find('li').removeClass('active');
+            $(e.target).addClass('active');
+        });
     })
     $leftMenu.find('li').removeClass('active');
-    $leftMenu.find('li[data-id='+id+']').addClass('active');
+    $leftMenu.find('li[data-id=' + id + ']').addClass('active');
 }
 
 function getChecklist(id) {
