@@ -11,10 +11,17 @@ class StateMachine:
             name = l[1][self.lineNo]['text']
             value = l[1][self.lineNo]['value']
             id = l[1][self.lineNo]['id']
+            try:
+                read_value = l[1][self.lineNo]['readableValue']
+            except(Exception):
+                read_value = None
+
+            line_type = l[1][self.lineNo]['type']
+
             print(name)
             print(value)
             print(id)
-            return [name, value, id]
+            return [name, value, id, line_type, read_value]
         return None
 
     def getList(self):
@@ -40,3 +47,6 @@ class StateMachine:
 
     def resetListLine(self):
         self.lineNo = 0
+
+    def getLineNo(self):
+        return self.lineNo

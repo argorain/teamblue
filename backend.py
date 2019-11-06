@@ -12,7 +12,8 @@ app = Flask(__name__)
 sockets = Sockets(app)
 
 ws_socket = None
-mock_counter = 0
+mock_counter = False
+last_line = None
 
 checklists_json = ""
 with open("checklist.json") as f:
@@ -30,7 +31,6 @@ s = StateMachine(checklists)
 #s.incrementLine()
 #s.getLine()
 
-
 @sockets.route('/')
 def echo_socket(ws):
     global ws_socket
@@ -42,7 +42,7 @@ def echo_socket(ws):
         action_json = ws.receive()
         action = json.loads(action_json)
         if(action['do'] == 'next'):
-            mock_counter += 1
+            mock_counter = True
             print(mock_counter)
        
 
@@ -53,6 +53,7 @@ def hello():
 
 @app.route('/api', methods=['POST', 'GET']) 
 def api():
+    global last_line
     data = request.args.to_dict()   
     print(data)
 
@@ -68,6 +69,7 @@ def api():
 
     response = ""
     id = None
+    id_name = None
 
     if(listName != None):
         if(s.setListName(listName.lower()) != None):
@@ -76,21 +78,52 @@ def api():
             if(id != None):
                 id = id[2]
                 print("List id:" + str(id))
+                id_name = "listid"
             response = "OK"
         else:
             response = "FAIL"
 
     if(getLine != None):
+        global mock_counter
         response = s.getLine()
-        s.incrementLine()
-        if(response != None):
-            id = response[2]
-            print("Line id:" + str(id))
-        response = response[0] + " " + response[1]
+
+        if(response != None and response[3] == "confirmed"): # we dont check system, increment automatically
+            mock_counter = True
+
+        if(mock_counter == True): #Action happened
+            mock_counter = False
+            s.incrementLine()
+            response = s.getLine()
+            #last_line = response
+            
+            if(response != None):
+                id = response[2]
+                print("Line id:" + str(id))
+                id_name = "lineid"
+            else:                
+                id = "done"
+                id_name = "lineid"
+
+            if(response != None):
+                if(response[4] == None):
+                    response = response[0] + " " + response[1]
+                else:
+                    response = response[0] + " " + response[4]
+        else:
+            if(response != None):
+                if(response[4] == None):
+                    response = response[0] + " " + response[1] + " failed."
+                else:
+                    response = response[0] + " " + response[4] + " failed."
+
+                print(response)
+                id = "fail"
+                id_name = "lineid"
+            
     
     global ws_socket
-    if ws_socket != None and not ws_socket.closed:  
-        json_ws = "{\"data\":\""+str(id)+"\"}"
+    if id_name != None and ws_socket != None and not ws_socket.closed:  
+        json_ws = "{\""+id_name +"\":\""+str(id)+"\"}"
         print("send to ws: " + json_ws)
         ws_socket.send(json_ws)
 
