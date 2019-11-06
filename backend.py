@@ -53,6 +53,7 @@ def hello():
 
 @app.route('/api', methods=['POST', 'GET']) 
 def api():
+    global last_line
     data = request.args.to_dict()   
     print(data)
 
@@ -83,18 +84,18 @@ def api():
             response = "FAIL"
 
     if(getLine != None):
-        global last_line
         global mock_counter
-        response = ""
+        response = s.getLine()
 
-        if(last_line != None and last_line[3] == "confirmed"): # we dont check system, increment automatically
+        if(response != None and response[3] == "confirmed"): # we dont check system, increment automatically
             mock_counter = True
 
         if(mock_counter == True): #Action happened
             mock_counter = False
-            response = s.getLine()
-            last_line = response
             s.incrementLine()
+            response = s.getLine()
+            #last_line = response
+            
             if(response != None):
                 id = response[2]
                 print("Line id:" + str(id))
@@ -104,11 +105,11 @@ def api():
             else:
                 response = response[0] + " " + response[4]
         else:
-            if(last_line != None):
-                if(last_line[4] == None):
-                    response = last_line[0] + " " + last_line[1] + " failed."
+            if(response != None):
+                if(response[4] == None):
+                    response = response[0] + " " + response[1] + " failed."
                 else:
-                    response = last_line[0] + " " + last_line[4] + " failed."
+                    response = response[0] + " " + response[4] + " failed."
 
                 print(response)
                 id = -1
