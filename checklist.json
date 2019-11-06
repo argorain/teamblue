@@ -95,8 +95,9 @@
             {
                 "id": 104,
                 "text": "Optimum speed",
+                "readableValue": "250 knots",
                 "value": "250kt",
-                "type": "cont"
+                "type": "confirmed"
             }
         ]
     },
