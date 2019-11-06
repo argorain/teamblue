@@ -5,7 +5,7 @@ const url = `http://${window.location.host}/api`;
 
 ws.onopen = (e) => {
     console.log("WS: OPEN");
-    ws.send("{\"exec\":\"getline\"}");
+    //ws.send("{\"exec\":\"getline\"}");
 };
 
 ws.onmessage = (e) => {
