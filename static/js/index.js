@@ -57,7 +57,7 @@ $(document).on('keypress', function(e) {
             sendData({ do: "next" });
             break;
         case "KeyW":
-            $.get(url + '?list=starting%20engine', (data) => {});
+            $.get(url + '?list=power%20up', (data) => {});
             break;
         case "KeyS":
             $.get(url + '?list=engine%20failure', (data) => {});
@@ -96,8 +96,9 @@ function renderChecklist(name, items) {
         var listItem = $('<li class="list-group-item" data-id="' + list.id + '">' + list.name + '</li>');
         $leftMenu.append(listItem);
         listItem.on('click', (e) => {
-            var clickedId = $(e.currentTarget).data().id;
-            selectChecklist(clickedId)
+            $.get(url + '?list=' + encodeURI(list.name), (data) => {});
+            //var clickedId = $(e.currentTarget).data().id;
+            //selectChecklist(clickedId)
         });
     })
 }

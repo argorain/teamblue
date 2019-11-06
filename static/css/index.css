@@ -68,3 +68,7 @@ div.row>div {
 #right .list-group-item.active {
     background-color: #222;
 }
+
+.checklist+.checklist>h5 {
+    margin-top: 20px;
+}
