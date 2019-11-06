@@ -100,10 +100,11 @@ def api():
                 id = response[2]
                 print("Line id:" + str(id))
                 id_name = "lineid"
-            if(response[4] == None):
-                response = response[0] + " " + response[1]
-            else:
-                response = response[0] + " " + response[4]
+            if(response != None):
+                if(response[4] == None):
+                    response = response[0] + " " + response[1]
+                else:
+                    response = response[0] + " " + response[4]
         else:
             if(response != None):
                 if(response[4] == None):
