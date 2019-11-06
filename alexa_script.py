@@ -30,7 +30,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speak_output = "Welcome, you can choose Take off or Engine Failure checklist. Which would you like to get?"
+        speak_output = "Which checklist?"
         return (
             handler_input.response_builder
                 .speak(speak_output)
@@ -65,7 +65,7 @@ class NextIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         intent_name = ask_utils.get_intent_name(handler_input)
-        url = "http://9b85892e.ngrok.io/api?getline"
+        url = "http://b8df7768.ngrok.io/api?getline"
         response = requests.get(url).text
         return (
             handler_input.response_builder
@@ -92,16 +92,19 @@ class ChecklistIntentHandler(AbstractRequestHandler):
         checklistName = slots[checklist_slot].value
         #checklistName = ask_utils.get_slot_value("checklist")
         #handler_input.response_builder.speak(checklistName).ask(checklistName)
-        url = "http://9b85892e.ngrok.io/api?list="+checklistName
+        url = "http://b8df7768.ngrok.io/api?list="+checklistName
         response = requests.get(url)
         logger.info("Response get checkist "+ response.text)
-        if response.status_code == 200 and response.text == "OK":
-            url = "http://9b85892e.ngrok.io/api?getline=1"
-            response = requests.get(url)
-            if response.status_code == 200:
-                speech = response.text
-            else:
-                speech = "No operations are available for the "+ checklistName
+        if response.status_code == 200 and not response.text == "FAIL":
+            #url = "http://b8df7768.ngrok.io/api?getline"
+            #response = requests.get(url)
+            #if response.status_code == 200:
+            #    speech = response.text
+            #    if(speech == "None"):
+            #        speech = "Checklist is completed."
+            #else:
+            #    speech = "No operations are available for the "+ checklistName
+            speech = response.text
         else:
             instructions = "I am so sorry. I am not able to get the checklist "+ checklistName +".\n"
             askQuestion = "Do you have another checklist?"
