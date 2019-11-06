@@ -106,11 +106,17 @@ def api():
                 id = "done"
                 id_name = "lineid"
 
+            s.decrementLine()
+            response = s.getLine()
+            s.incrementLine()
+
             if(response != None):
                 if(response[4] == None):
                     response = response[0] + " " + response[1]
                 else:
                     response = response[0] + " " + response[4]
+            else:
+                response = "Checklist done"
         else:
             if(response != None):
                 if(response[4] == None):
