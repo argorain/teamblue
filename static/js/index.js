@@ -143,12 +143,10 @@ function selectLine(line) {
         $activeEl.removeClass('fail');
         $activeEl.removeClass('successful');
 
-        var $nextEl = $($checklistItems.find(".list-group-item")[line - 1]);
+        var $nextEl = $($checklistItems.find('.list-group-item[data-id=' + line + ']'));
 
         if ($nextEl) {
             $nextEl.addClass('active');
-        } else {
-
         }
     }
 }
