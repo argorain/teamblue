@@ -89,7 +89,7 @@ def api():
         response = response[0] + " " + response[1]
     
     global ws_socket
-    if not ws_socket.closed:  
+    if ws_socket != None and not ws_socket.closed:  
         json_ws = "{\"data\":\""+str(id)+"\"}"
         print("send to ws: " + json_ws)
         ws_socket.send(json_ws)
