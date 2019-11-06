@@ -99,5 +99,101 @@
                 "type": "cont"
             }
         ]
+    },
+    {
+        "id": 3,
+        "group": "Standard",
+        "name": "Electrical Power Up",
+        "items": []
+    },
+    {
+        "id": 4,
+        "group": "Standard",
+        "name": "Preliminary Preflight",
+        "items": []
+    },
+    {
+        "id": 5,
+        "group": "Standard",
+        "name": "Preflight",
+        "items": []
+    },
+    {
+        "id": 6,
+        "group": "Standard",
+        "name": "Before Start",
+        "items": []
+    },
+    {
+        "id": 7,
+        "group": "Standard",
+        "name": "Before Takeoff",
+        "items": []
+    },
+    {
+        "id": 8,
+        "group": "Standard",
+        "name": "Takeoff",
+        "items": []
+    },
+    {
+        "id": 9,
+        "group": "Standard",
+        "name": "Climb & Cruise",
+        "items": []
+    },
+    {
+        "id": 10,
+        "group": "Standard",
+        "name": "Descent",
+        "items": []
+    },
+    {
+        "id": 11,
+        "group": "Standard",
+        "name": "Approach",
+        "items": []
+    },
+    {
+        "id": 12,
+        "group": "Standard",
+        "name": "Landing ILS",
+        "items": []
+    },
+    {
+        "id": 13,
+        "group": "Standard",
+        "name": "Landing Roll",
+        "items": []
+    },
+    {
+        "id": 14,
+        "group": "Standard",
+        "name": "After Landing",
+        "items": []
+    },
+    {
+        "id": 15,
+        "group": "Standard",
+        "name": "Shutdown",
+        "items": []
+    },
+    {
+        "id": 16,
+        "group": "Emergency",
+        "name": "Electrical Cutoff",
+        "items": []
+    },
+    {
+        "id": 18,
+        "group": "Emergency",
+        "name": "Emergency Descent",
+        "items": []
+    },
+    {
+        "id": 19,
+        "group": "Emergency",
+        "name": "Ditching",
+        "items": []
     }
 ]
