@@ -31,8 +31,6 @@ class LaunchRequestHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         speak_output = "Welcome, you can choose Take off or Engine Failure checklist. Which would you like to get?"
-        handler_input.response_builder.set_should_end_session(False)
-        session_attr = handler_input.attributes_manager.session_attributes
         return (
             handler_input.response_builder
                 .speak(speak_output)
@@ -67,28 +65,8 @@ class NextIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         intent_name = ask_utils.get_intent_name(handler_input)
-        session_attr = handler_input.attributes_manager.session_attributes
-        #speech = "Tell me the number"
         url = "http://9b85892e.ngrok.io/api?getline"
-        response = requests.get(url)
-        if response.status_code == 500 or response.status_code == 404:
-            if checklist_slot in session_attr:
-                checklistName = session_attr[checklist_slot]
-                url = "http://9b85892e.ngrok.io/api?list="+checklistName
-                response = requests.get(url)
-                if response.status_code == 200 and response.text == "OK":
-                    handler_input.response_builder.set_should_end_session(False)
-                    url = "http://9b85892e.ngrok.io/api?getline=1"
-                    response = requests.get(url)
-                    if response.status_code == 200:
-                        speech = response.text
-                    else:
-                        speech = "No operations are available for the "+ checklistName
-                        handler_input.response_builder.set_should_end_session(True)
-                        return handler_input.response_builder.speak(response).ask(response).response
-        else if response.text is None or response.text is '':
-            response = "The checklist is completed"
-            handler_input.response_builder.set_should_end_session(True)
+        response = requests.get(url).text
         return (
             handler_input.response_builder
                 .speak(response)
@@ -118,8 +96,6 @@ class ChecklistIntentHandler(AbstractRequestHandler):
         response = requests.get(url)
         logger.info("Response get checkist "+ response.text)
         if response.status_code == 200 and response.text == "OK":
-            session_attr[checklist_slot] = checklistName
-            session_attr["line"] = 1
             url = "http://9b85892e.ngrok.io/api?getline=1"
             response = requests.get(url)
             if response.status_code == 200:
