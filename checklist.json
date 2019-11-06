@@ -23,40 +23,21 @@
                 "type": "confirmed"
             },
             {
-                "id": 4,
-                "text": "Engine 2 Start Switch",
-                "value": "GRD",
-                "readableValue": "Ground",
-                "type": "auto"
-            },
-            {
-                "id": 5,
-                "text": "Engine 2 Spool up",
-                "value": "25%",
-                "type": "auto"
-            },
-            {
-                "id": 6,
-                "text": "Engine 2 Start Lever",
-                "value": "IDLE",
-                "type": "auto"
-            },
-            {
                 "id": 7,
-                "text": "Engine 1 Start Switch",
+                "text": "Engine Start Switch",
                 "value": "GRD",
                 "readableValue": "Ground",
                 "type": "auto"
             },
             {
                 "id": 8,
-                "text": "Engine 1 Spool up",
+                "text": "Engine Spool up",
                 "value": "25%",
                 "type": "auto"
             },
             {
                 "id": 9,
-                "text": "Engine 1 Start Lever",
+                "text": "Engine Start Lever",
                 "value": "IDLE",
                 "type": "auto"
             }
