@@ -10,3 +10,36 @@ div.row>div {
     height: 100%;
     overflow: auto;
 }
+
+#right {
+    border-left: white solid 1px;
+}
+
+.item-check {
+    margin: 0 10px;
+}
+
+.item-value {
+    float: right;
+}
+
+.successful .item-text,
+.successful .item-value {
+    color: green;
+}
+
+.fail .item-text,
+.fail .item-value {
+    color: red;
+}
+
+.list-group-item.done,
+.done .item-text,
+.done .item-value {
+    background-color: green !important;
+    color: white;
+}
+
+#right .list-group-item.active {
+    background-color: #222;
+}
