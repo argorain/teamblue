@@ -113,6 +113,8 @@ def api():
                     response = response[0] + " " + response[1]
                 else:
                     response = response[0] + " " + response[4]
+            else:
+                response = "Checklist done"
         else:
             if(response != None):
                 if(response[4] == None):
