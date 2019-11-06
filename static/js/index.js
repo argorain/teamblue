@@ -57,7 +57,7 @@ $(document).on('keypress', function(e) {
             sendData({ do: "next" });
             break;
         case "KeyW":
-            $.get(url + '?list=starting%20engine', (data) => {});
+            $.get(url + '?list=power%20up', (data) => {});
             break;
         case "KeyS":
             $.get(url + '?list=engine%20failure', (data) => {});

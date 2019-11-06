@@ -50,3 +50,8 @@ class StateMachine:
 
     def getLineNo(self):
         return self.lineNo
+
+    def decrementLine(self):
+        self.lineNo -= 1
+        if(self.lineNo < 0):
+            self.lineNo = 0
