@@ -54,8 +54,10 @@ $(document).on('keypress', function(e) {
             sendData({ do: "next" });
             break;
         case "KeyW":
-            console.log("starting engine");
             $.get(url + '?list=starting%20engine', (data) => {});
+            break;
+        case "KeyS":
+            $.get(url + '?list=engine%20failure', (data) => {});
             break;
         case "KeyE":
             $.get(url + '?getline', (data) => {});
@@ -118,7 +120,9 @@ function selectChecklist(id) {
         });
     })
     $left.find('li').removeClass('active');
-    $left.find('li[data-id=' + id + ']').addClass('active');
+    var $item = $left.find('li[data-id=' + id + ']');
+    $item.addClass('active');
+    $left.scrollTop($left.scrollTop() + $item.position().top);
 }
 
 function getChecklist(id) {
