@@ -25,17 +25,14 @@ function sendData(data) {
 
 var checklists = []
 
-var $leftMenu;
+var $left;
 var $checklistName;
 var $checklistItems;
 
 $(document).ready(() => {
 
-    var $left = $("#left");
+    $left = $("#left");
     var $right = $("#right");
-
-    $leftMenu = $('<ul class="list-group"></ul>');
-    $left.append($leftMenu);
 
     $checklistName = $('<h4></h4>');
     $right.append($checklistName);
@@ -62,7 +59,23 @@ function fetchChecklists(callback) {
 }
 
 function renderChecklists() {
-    checklists.forEach((list) => {
+    var standardChecklists = checklists.filter(list => list.group == 'Standard')
+    renderChecklist("Standard Checklists", standardChecklists)
+
+    var emergencyChecklists = checklists.filter(list => list.group == 'Emergency')
+    renderChecklist("Emergency Checklists", emergencyChecklists)
+}
+
+function renderChecklist(name, items) {
+    var $div = $('<div class="checklist"></div>');
+    $left.append($div);
+
+    $div.append('<h5>' + name +'</h5>')
+
+    var $leftMenu = $('<ul class="list-group"></ul>');
+    $div.append($leftMenu);
+
+    items.forEach((list) => {
         var listItem = $('<li class="list-group-item" data-id="' + list.id + '">' + list.name + '</li>');
         $leftMenu.append(listItem);
         listItem.on('click', (e) => {
@@ -90,8 +103,8 @@ function selectChecklist(id) {
             $(e.target).addClass('active');
         });
     })
-    $leftMenu.find('li').removeClass('active');
-    $leftMenu.find('li[data-id=' + id + ']').addClass('active');
+    $left.find('li').removeClass('active');
+    $left.find('li[data-id=' + id + ']').addClass('active');
 }
 
 function getChecklist(id) {
