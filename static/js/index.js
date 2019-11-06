@@ -30,6 +30,7 @@ function sendData(data) {
 var checklists = []
 
 var $left;
+var $groupName;
 var $checklistName;
 var $checklistItems;
 
@@ -38,8 +39,10 @@ $(document).ready(() => {
     $left = $("#left");
     var $right = $("#right");
 
-    $checklistName = $('<h4></h4>');
-    $right.append($checklistName);
+    $groupName = $('#group h5');
+
+    $checklistName = $('#title h4');
+    // $right.append($checklistName);
 
     $checklistItems = $('<ul class="list-group"></ul>');
     $right.append($checklistItems);
@@ -100,9 +103,13 @@ function renderChecklist(name, items) {
 }
 
 function selectChecklist(id) {
+    $('#group').show();
+    $('#title').show();
+
     $checklistItems.empty();
     var checklist = getChecklist(id);
     $checklistName.html(checklist.name)
+    $groupName.html(checklist.group)
     checklist.items.forEach((item, index) => {
         var auto = item.type === "auto" ? " (A)" : "";
         var active = index === 0 ? " active" : "";

@@ -11,8 +11,33 @@ div.row>div {
     overflow: auto;
 }
 
+#left {
+    padding: 10px 10px;
+}
+
 #right {
     border-left: white solid 1px;
+    padding: 10px 10px;
+}
+
+#group,
+#title {
+    display: none;
+}
+
+#group span,
+#title span {
+    display: inline-block;
+    width: 100px;
+}
+
+#group h5,
+#title h4 {
+    display: inline-block;
+}
+
+#group h5 {
+    margin-bottom: 0px;
 }
 
 .item-check {
