@@ -68,6 +68,7 @@ def api():
 
     response = ""
     id = None
+    id_name = None
 
     if(listName != None):
         if(s.setListName(listName.lower()) != None):
@@ -76,6 +77,7 @@ def api():
             if(id != None):
                 id = id[2]
                 print("List id:" + str(id))
+                id_name = "listid"
             response = "OK"
         else:
             response = "FAIL"
@@ -86,11 +88,12 @@ def api():
         if(response != None):
             id = response[2]
             print("Line id:" + str(id))
+            id_name = "lineid"
         response = response[0] + " " + response[1]
     
     global ws_socket
     if ws_socket != None and not ws_socket.closed:  
-        json_ws = "{\"data\":\""+str(id)+"\"}"
+        json_ws = "{\""+id_name +"\":\""+str(id)+"\"}"
         print("send to ws: " + json_ws)
         ws_socket.send(json_ws)
 
