@@ -13,6 +13,7 @@ sockets = Sockets(app)
 
 ws_socket = None
 mock_counter = 0
+last_line = None
 
 checklists_json = ""
 with open("checklist.json") as f:
@@ -29,7 +30,6 @@ s = StateMachine(checklists)
 #s.getLine()
 #s.incrementLine()
 #s.getLine()
-
 
 @sockets.route('/')
 def echo_socket(ws):
@@ -83,16 +83,30 @@ def api():
             response = "FAIL"
 
     if(getLine != None):
-        response = s.getLine()
-        s.incrementLine()
-        if(response != None):
-            id = response[2]
-            print("Line id:" + str(id))
-            id_name = "lineid"
-        if(response[4] == None):
-            response = response[0] + " " + response[1]
+        global last_line
+        global mock_counter
+        if(mock_counter == s.getLineNo()): #Action happened
+            response = s.getLine()
+            last_line = response
+            s.incrementLine()
+            if(response != None):
+                id = response[2]
+                print("Line id:" + str(id))
+                id_name = "lineid"
+            if(response[4] == None):
+                response = response[0] + " " + response[1]
+            else:
+                response = response[0] + " " + response[4]
         else:
-            response = response[0] + " " + response[4]
+            if(last_line[4] == None):
+                response = last_line[0] + " " + last_line[1] + " failed."
+            else:
+                response = last_line[0] + " " + last_line[4] + " failed."
+
+            print(response)
+            id = -1
+            id_name = "lineid"
+            
     
     global ws_socket
     if ws_socket != None and not ws_socket.closed:  

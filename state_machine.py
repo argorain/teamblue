@@ -47,3 +47,6 @@ class StateMachine:
 
     def resetListLine(self):
         self.lineNo = 0
+
+    def getLineNo(self):
+        return self.lineNo
