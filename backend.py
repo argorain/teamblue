@@ -11,6 +11,8 @@ app = Flask(__name__)
 #app.config['SECRET_KEY'] = 'secret!'
 sockets = Sockets(app)
 
+ws_socket = None
+
 checklists_json = ""
 with open("checklist.json") as f:
     checklists_json = f.read()
@@ -27,16 +29,19 @@ s = StateMachine(checklists)
 #s.incrementLine()
 #s.getLine()
 
+
 @sockets.route('/')
 def echo_socket(ws):
-    print("echo")
-    while not ws.closed:
-        message = ws.receive()
-        print("WS received: " + message)
-        req = json.loads(message)
-        print(req)
-        
-        ws.send(message)
+    global ws_socket
+
+    ws_socket = ws
+    print("Socket stored")
+    while not ws_socket.closed: 
+        ws.receive()
+        #if(ws_message != None):
+        #    ws_message = "{\"exec\":\"getline\"}"
+        #    print(ws_message)
+        #    ws.send(ws_message)
        
 
 @app.route('/')
@@ -60,10 +65,15 @@ def api():
         getLine = None
 
     response = ""
+    id = None
 
     if(listName != None):
         if(s.setListName(listName.lower()) != None):
             s.resetListLine()
+            id = s.getList()
+            if(id != None):
+                id = id[2]
+                print("List id:" + str(id))
             response = "OK"
         else:
             response = "FAIL"
@@ -71,7 +81,16 @@ def api():
     if(getLine != None):
         response = s.getLine()
         s.incrementLine()
-
+        if(response != None):
+            id = response[2]
+            print("Line id:" + str(id))
+        response = response[0] + " " + response[1]
+    
+    global ws_socket
+    if not ws_socket.closed:  
+        json_ws = "{\"data\":\""+str(id)+"\"}"
+        print("send to ws: " + json_ws)
+        ws_socket.send(json_ws)
 
     return str(response)
 

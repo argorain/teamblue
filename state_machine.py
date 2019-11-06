@@ -10,9 +10,11 @@ class StateMachine:
         if(l != None and self.lineNo < len(l[1])):
             name = l[1][self.lineNo]['text']
             value = l[1][self.lineNo]['value']
+            id = l[1][self.lineNo]['id']
             print(name)
             print(value)
-            return [name, value]
+            print(id)
+            return [name, value, id]
         return None
 
     def getList(self):
@@ -20,9 +22,10 @@ class StateMachine:
             listName = self.checklist[i]['name'].lower()
             if(listName == self.listName):
                 items = self.checklist[i]['items']
+                id = self.checklist[i]['id']
                 print(listName)
                 print(items)
-                return [listName, items]
+                return [listName, items, id]
         return None
     
     def setListName(self, name):
