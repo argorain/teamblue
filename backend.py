@@ -12,7 +12,7 @@ app = Flask(__name__)
 sockets = Sockets(app)
 
 ws_socket = None
-mock_counter = 0
+mock_counter = False
 last_line = None
 
 checklists_json = ""
@@ -42,7 +42,7 @@ def echo_socket(ws):
         action_json = ws.receive()
         action = json.loads(action_json)
         if(action['do'] == 'next'):
-            mock_counter += 1
+            mock_counter = True
             print(mock_counter)
        
 
@@ -86,9 +86,10 @@ def api():
         global last_line
         global mock_counter
         if(last_line != None and last_line[3] == "confirmed"): # we dont check system, increment automatically
-            mock_counter += 1
+            mock_counter = True
 
-        if(mock_counter == s.getLineNo()): #Action happened
+        if(mock_counter == True): #Action happened
+            mock_counter = False
             response = s.getLine()
             last_line = response
             s.incrementLine()
