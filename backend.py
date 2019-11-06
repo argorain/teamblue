@@ -84,6 +84,7 @@ def api():
         if(response != None):
             id = response[2]
             print("Line id:" + str(id))
+        response = response[0] + " " + response[1]
     
     global ws_socket
     if not ws_socket.closed:  
