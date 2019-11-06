@@ -85,6 +85,8 @@ def api():
     if(getLine != None):
         global last_line
         global mock_counter
+        response = ""
+
         if(last_line != None and last_line[3] == "confirmed"): # we dont check system, increment automatically
             mock_counter = True
 
@@ -102,18 +104,19 @@ def api():
             else:
                 response = response[0] + " " + response[4]
         else:
-            if(last_line != None and last_line[4] == None):
-                response = last_line[0] + " " + last_line[1] + " failed."
-            else:
-                response = last_line[0] + " " + last_line[4] + " failed."
+            if(last_line != None):
+                if(last_line[4] == None):
+                    response = last_line[0] + " " + last_line[1] + " failed."
+                else:
+                    response = last_line[0] + " " + last_line[4] + " failed."
 
-            print(response)
-            id = -1
-            id_name = "lineid"
+                print(response)
+                id = -1
+                id_name = "lineid"
             
     
     global ws_socket
-    if ws_socket != None and not ws_socket.closed:  
+    if id_name != None and ws_socket != None and not ws_socket.closed:  
         json_ws = "{\""+id_name +"\":\""+str(id)+"\"}"
         print("send to ws: " + json_ws)
         ws_socket.send(json_ws)
