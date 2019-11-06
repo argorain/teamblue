@@ -100,6 +100,10 @@ def api():
                 id = response[2]
                 print("Line id:" + str(id))
                 id_name = "lineid"
+            else:                
+                id = "done"
+                id_name = "lineid"
+
             if(response != None):
                 if(response[4] == None):
                     response = response[0] + " " + response[1]
@@ -113,7 +117,7 @@ def api():
                     response = response[0] + " " + response[4] + " failed."
 
                 print(response)
-                id = -1
+                id = "fail"
                 id_name = "lineid"
             
     

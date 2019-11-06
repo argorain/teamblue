@@ -50,6 +50,7 @@ $(document).ready(() => {
 $(document).on('keypress', function(e) {
     switch (e.code) {
         case "KeyQ":
+            sensorsOK();
             sendData({ do: "next" });
             break;
         case "KeyW":
@@ -103,7 +104,7 @@ function selectChecklist(id) {
     checklist.items.forEach((item, index) => {
         var auto = item.type === "auto" ? " (A)" : "";
         var active = index === 0 ? " active" : "";
-        var listItem = $('<li class="list-group-item' + active + '" data-id="' + item.id + '"><input class="form-check-input position-static item-check" type="checkbox" value="' + item.text + '" aria-label="' + item.text + '"><span class="item-text">' + item.text + auto + '</span><span class="item-value">' + item.value + '</span></li>');
+        var listItem = $('<li class="list-group-item ' + item.type + active + '" data-id="' + item.id + '"><input class="form-check-input position-static item-check" type="checkbox" value="' + item.text + '" aria-label="' + item.text + '"><span class="item-text">' + item.text + auto + '</span><span class="item-value">' + item.value + '</span></li>');
         $checklistItems.append(listItem);
         listItem.find('.form-check-input').change(function() {
             if ($(this).prop('checked'))
@@ -124,17 +125,34 @@ function getChecklist(id) {
     return checklists.filter((list) => list.id == id)[0];
 }
 
-function selectLine(number) {
+function selectLine(line) {
     var $activeEl = $checklistItems.find(".list-group-item.active");
-    if (number > 0) {
-        var $nextEl = $activeEl.next();
+    if (line === "fail") {
+        $activeEl.addClass('fail');
+    } else if (line === "done") {
+        $activeEl.find(".form-check-input").prop("checked", true);
+        $activeEl.addClass('done');
+    } else {
+        $activeEl.find(".form-check-input").prop("checked", true);
+        $activeEl.addClass('done');
         $activeEl.removeClass('active');
         $activeEl.removeClass('fail');
-        $activeEl.addClass('done');
+        $activeEl.removeClass('successful');
+
+        var $nextEl = $($checklistItems.find(".list-group-item")[line - 1]);
+
         if ($nextEl) {
             $nextEl.addClass('active');
+        } else {
+
         }
-    } else {
-        $activeEl.addClass('fail');
+    }
+}
+
+function sensorsOK() {
+    var $activeEl = $checklistItems.find(".list-group-item.active.auto");
+    if ($activeEl) {
+        $activeEl.removeClass('fail');
+        $activeEl.addClass('successful');
     }
 }
