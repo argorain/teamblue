@@ -17,6 +17,12 @@ ws.onclose = (e) => {
     console.log("WS: CLOSE");
 };
 
+function sendData(data) {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify(data));
+    }
+}
+
 var checklists = []
 
 var $leftMenu;
@@ -39,6 +45,14 @@ $(document).ready(() => {
 
     fetchChecklists();
 })
+
+$(document).on('keypress', function(e) {
+    switch (e.code) {
+        case "KeyQ":
+            sendData({ do: "next" });
+            break;
+    }
+});
 
 function fetchChecklists(callback) {
     $.get(url + '/all', function(data) {
