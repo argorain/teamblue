@@ -93,9 +93,10 @@ def api():
         if(mock_counter == True): #Action happened
             mock_counter = False
             
+            s.incrementLine()
             response = s.getLine()
 
-            s.incrementLine()
+            
             #last_line = response
             
             if(response != None):
