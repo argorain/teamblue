@@ -102,7 +102,7 @@ def api():
             else:
                 response = response[0] + " " + response[4]
         else:
-            if(last_line[4] == None):
+            if(last_line != None and last_line[4] == None):
                 response = last_line[0] + " " + last_line[1] + " failed."
             else:
                 response = last_line[0] + " " + last_line[4] + " failed."
