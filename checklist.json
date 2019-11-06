@@ -1,33 +1,102 @@
 [
     {
         "id": 1,
-        "name": "Take-off",
+        "group": "Standard",
+        "name": "Starting engine",
         "items": [
             {
                 "id": 1,
-                "text": "Wing Flaps",
-                "value": "20 degrees"
+                "text": "Ground Crew Clearance",
+                "value": "RECEIVED",
+                "type": "confirmed"
             },
             {
                 "id": 2,
-                "text": "Throttle",
-                "value": "FULL"
+                "text": "Packs",
+                "value": "OFF",
+                "type": "auto"
+            },
+            {
+                "id": 3,
+                "text": "Start Sequence",
+                "value": "Announce",
+                "type": "confirmed"
+            },
+            {
+                "id": 4,
+                "text": "Engine 2 Start Switch",
+                "value": "GRD",
+                "readableValue": "Ground",
+                "type": "auto"
+            },
+            {
+                "id": 5,
+                "text": "Engine 2 Spool up",
+                "value": "25%",
+                "type": "auto"
+            },
+            {
+                "id": 6,
+                "text": "Engine 2 Start Lever",
+                "value": "IDLE",
+                "type": "auto"
+            },
+            {
+                "id": 7,
+                "text": "Engine 1 Start Switch",
+                "value": "GRD",
+                "readableValue": "Ground",
+                "type": "auto"
+            },
+            {
+                "id": 8,
+                "text": "Engine 1 Spool up",
+                "value": "25%",
+                "type": "auto"
+            },
+            {
+                "id": 9,
+                "text": "Engine 1 Start Lever",
+                "value": "IDLE",
+                "type": "auto"
             }
         ]
     },
     {
         "id": 2,
+        "group": "Emergency",
         "name": "Engine Failure",
         "items": [
             {
-                "id": 3,
-                "text": "Wing Flaps",
-                "value": "30 degrees"
+                "id": 100,
+                "text": "Engine Mode Select",
+                "value": "IGN",
+                "readableValue": "Ignition",
+                "type": "auto"
             },
             {
-                "id": 3,
-                "text": "Brakes",
-                "value": "APPLY"
+                "id": 101,
+                "text": "APU",
+                "value": "Start",
+                "type": "auto"
+            },
+            {
+                "id": 102,
+                "text": "APU Bleed",
+                "value": "ON",
+                "type": "auto"
+            },
+            {
+                "id": 103,
+                "text": "Engine Masters",
+                "value": "OFF",
+                "type": "auto"
+            },
+            {
+                "id": 104,
+                "text": "Optimum speed",
+                "value": "250kt",
+                "type": "cont"
             }
         ]
     }
