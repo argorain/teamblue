@@ -85,6 +85,9 @@ def api():
     if(getLine != None):
         global last_line
         global mock_counter
+        if(last_line != None and last_line[3] == "confirmed"): # we dont check system, increment automatically
+            mock_counter += 1
+
         if(mock_counter == s.getLineNo()): #Action happened
             response = s.getLine()
             last_line = response
