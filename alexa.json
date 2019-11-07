@@ -30,6 +30,9 @@
                 {
                     "name": "AMAZON.NextIntent",
                     "samples": [
+                        "completed",
+                        "now it's done",
+                        "it's done",
                         "check",
                         "next",
                         "which is the following one",
