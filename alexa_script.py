@@ -86,37 +86,21 @@ class ChecklistIntentHandler(AbstractRequestHandler):
         slots = handler_input.request_envelope.request.intent.slots
         
         if checklist_slot not in slots:
-            speech = "I am not sure to understand. Please tell me which checlist you want"
+            speech = "I am not sure to understand. Please tell me which checklist you want"
             return handler_input.response_builder.speak(speech).ask(speech).response
         
         checklistName = slots[checklist_slot].value
-        #checklistName = ask_utils.get_slot_value("checklist")
-        #handler_input.response_builder.speak(checklistName).ask(checklistName)
         url = "http://b8df7768.ngrok.io/api?list="+checklistName
         response = requests.get(url)
         logger.info("Response get checkist "+ response.text)
         if response.status_code == 200 and not response.text == "FAIL":
-            #url = "http://b8df7768.ngrok.io/api?getline"
-            #response = requests.get(url)
-            #if response.status_code == 200:
-            #    speech = response.text
-            #    if(speech == "None"):
-            #        speech = "Checklist is completed."
-            #else:
-            #    speech = "No operations are available for the "+ checklistName
             speech = response.text
         else:
             instructions = "I am so sorry. I am not able to get the checklist "+ checklistName +".\n"
             askQuestion = "Do you have another checklist?"
             instructions += askQuestion
             speech = instructions
-        return handler_input.response_builder.speak(speech).response
-        #return (
-            #handler_input.response_builder
-                #.speak(speak_output)
-                # .ask("add a reprompt if you want to keep the session open for the user to respond")
-                #.response)
-
+        return handler_input.response_builder.speak(speech).ask(speech).response
 
 class HelpIntentHandler(AbstractRequestHandler):
     """Handler for Help Intent."""
