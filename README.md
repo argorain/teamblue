@@ -1,4 +1,4 @@
-##Checklist Execution Assistant
+## Checklist Execution Assistant
 
 Checklist Execution Assistant Voice-enabled Checklist 
 readout and verification assistant. It finds a checklist 
@@ -13,7 +13,7 @@ current state of execution. Items that are validated by the system have green te
 items that are checked by the user but are not validated by the system have red text 
 and successfully checked and verified items have green background.
 
-###Typical voice interaction:
+### Typical voice interaction:
 User: Open the checklist.  
 Assistant: Which one?  
 User: Power up  
@@ -29,7 +29,7 @@ Assistant: Start Sequence Announced
 User: Check  
 Assistant: Checklist complete
 
-###Interfaces
+### Interfaces
 Backend runs on port 5000. Alexa frontend sends HTTP GET request to 
 ``/api?list=<checklist_name>`` to open a checklist. To move to the next checklist item, 
 Alexa frontend send HTTP get request to ``/api?getline``.
@@ -39,7 +39,7 @@ Web page loads all checklists from backend using HTTP GET request to
 checklist execution and automatically updates the UI.
 
 
-###List of important files
+### List of important files
 * checklist.json - JSON with list of checklists and their items
 * alexa.json - Configuration of Alexa interaction model
 * alexa_script.py - Python code for Alexa intent handlers
