@@ -23,10 +23,10 @@ Assistant: Packs Off
 User: Check  
 (external system does not report Packs Off)  
 Assistant: Not done  
-User: Check  
+User: Next  
 (external system now reports Packs Off)  
 Assistant: Start Sequence Announced  
-User: Check  
+User: Done  
 Assistant: Checklist complete
 
 ### Interfaces
@@ -48,3 +48,40 @@ checklist execution and automatically updates the UI.
 * static/css/index.css - webpage styling
 * static/js/index.js - webpage javascript
 * templates/index.html - HTML webpage template
+
+### Run Checklist Execution Assistant Demo
+
+Before running the backend we need to download ngrok application at https://ngrok.com/ for publishing your interface in order to allow at Alexa to communicate with them.
+Ngrok is going to create a tunnel at your localhost. After downloading it, you have to run this command at your terminal at the directory where ngrok is downloaded:
+
+``ngrok http 5000``
+
+5000 is the port where the server will run.
+
+For running the Checklist Execution Assistant Demo, we need to make the following operations:
+
+1. Run Server: 
+  a. Open the terminal (Unix) / cmd (Windows)
+  b. Go to your local folder for the teamblue directory.
+  c. Run ``py backend.py``
+  d. Remember to run ``ngrok http 5000``
+2. Sign-in to https://developer.amazon.com/alexa/console/ask
+3. Create a new skill
+  a. Choose Custom Model and Alexa-Hosted (Python) Method
+4. Go To Json Editor
+5. Copy in the text editor the content of ``alexa.json``
+6. Click on Save model and Build Model
+7. Go to Code Tab
+8. Copy into lambda_function.py the content of the file ``alexa_script.py``
+9. Search for http and change the url until /api with the url provided by your ngrok instance.
+9. Click on Save and Deploy it.
+10. Open your browser e go to http:://localhost:5000
+11. Go to Test tab or download and sign-in to Reverb mobile app.
+12. Ask ``open the checklist``
+12. Choose between Engine Failure and Power UP checklist and say ``Run Power UP``
+13. Check on your browser the result.
+14. If you receive a verifiable instruction, ``press Q`` on your web page for simulating the pilot's execution.
+15. For getting the next instruction, say one of ``Next``, ``Done``, ``Check``, ``It's done``
+
+Enjoy with Checklist Execution Assistant!
+
