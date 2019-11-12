@@ -90,3 +90,4 @@ For running the Checklist Execution Assistant Demo, we need to make the followin
 
 Enjoy with Checklist Execution Assistant!
 
+For more and technical information go to: ``ChecklistExecutionAssistant.pdf``
