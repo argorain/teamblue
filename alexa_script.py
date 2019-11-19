@@ -20,6 +20,7 @@ logger.setLevel(logging.INFO)
 
 checklist_slot = "checklist"
 line = "line"
+apiUrl = "http://bea6b4a9.ngrok.io/api"
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
@@ -65,7 +66,7 @@ class NextIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         intent_name = ask_utils.get_intent_name(handler_input)
-        url = "http://b8df7768.ngrok.io/api?getline"
+        url = apiUrl + "?getline"
         response = requests.get(url).text
         return (
             handler_input.response_builder
@@ -90,7 +91,7 @@ class ChecklistIntentHandler(AbstractRequestHandler):
             return handler_input.response_builder.speak(speech).ask(speech).response
         
         checklistName = slots[checklist_slot].value
-        url = "http://b8df7768.ngrok.io/api?list="+checklistName
+        url = apiUrl + "?list="+checklistName
         response = requests.get(url)
         logger.info("Response get checkist "+ response.text)
         if response.status_code == 200 and not response.text == "FAIL":
